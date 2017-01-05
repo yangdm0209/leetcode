@@ -27,11 +27,11 @@ function get_author_name()
 {
     TRUE_CMD=`which true`
     git=`type -P git || ${TRUE_CMD}`
-    if [ ! -z "${git}" ]; then
-       AUTHOR=`git config --get user.name`
-    else 
-       AUTHOR=`whoami`
-    fi
+#    if [ ! -z "${git}" ]; then
+#       AUTHOR=`git config --get user.name`
+#    else 
+#       AUTHOR=`whoami`
+#    fi
 }
 
 
@@ -65,18 +65,18 @@ function install_xidel()
     #install the xidel on Linux platform
     if [[ "$platform" == "linux" ]]; then
         hardware=`uname -m`
-        xidel_tar=xidel-0.8.4.linux64.tar.gz
+        xidel_tar=xidel-0.9.6.linux64.tar.gz
         case $hardware in
-            x86_64 )    xidel_tar=xidel-0.8.4.linux64.tar.gz
+            x86_64 )    xidel_tar=xidel-0.9.6.linux64.tar.gz
                         ;;
-              i686 )    xidel_tar=xidel-0.8.4.linux32.tar.gz
+              i686 )    xidel_tar=xidel-0.9.6.linux32.tar.gz
                         ;;
                  * )    echo "Cannot install xidel, please install it manually!"
                         exit 1;
         esac
         if [ ! -f ${xidel_tar} ]; then
             echo "Downloading xidel......"
-            curl -L http://softlayer-sng.dl.sourceforge.net/project/videlibri/Xidel/Xidel%200.8.4/${xidel_tar} -o ${xidel_tar}
+            curl -L http://jaist.dl.sourceforge.net/project/videlibri/Xidel/Xidel%200.9.6/${xidel_tar} -o ${xidel_tar}
         fi
         tar -zxvf ${xidel_tar}
         ./install.sh
@@ -174,14 +174,14 @@ fi
 # 1) the `fold` command is used to wrap the text at centain column
 # 2) the last two `sed` commands are used to add the comments tags
 case $FILE_EXT in
-    .cpp )      xidel ${leetcode_url} -q -e "css('div.question-content')"  | \
+    .cpp )      xidel ${leetcode_url} -s -e "css('div.question-content')"  | \
                     grep -v '             ' | sed '/^$/N;/^\n$/D'  | fold -w 85 -s |\
                     sed 's/^/ * /' | sed '1i\'$'\n'"/*$(printf '%.0s*' {0..85}) "$'\n' |\
                     sed '2i\'$'\n''!@#$%'$'\n' | sed 's/!@#$%/ */' | \
                     sed '$a\'$'\n'"*$(printf '%.0s*' {0..85})*/"$'\n'| \
                     sed 's/^*/ /' > /tmp/tmp.txt
                 ;;
-    .sh )      xidel ${leetcode_url} -q -e "css('div.question-content')"  | \
+    .sh )      xidel ${leetcode_url} -s -e "css('div.question-content')"  | \
                     grep -v '             ' |sed '/^$/N;/^\n$/D'  | fold -w 85 -s| \
                     sed 's/^/# /' | sed '1i\'$'\n'"#$(printf '%.0s#' {0..85}) "$'\n' | \
                     sed '2i\'$'\n''#'$'\n' | sed '$a\'$'\n'"#$(printf '%.0s#' {0..85})"$'\n'\
