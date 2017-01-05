@@ -39,4 +39,27 @@ public:
         }
         return ret;
     }
+	
+	/*************************************************************************************** 
+	* Fix the first element A[0] and do binary search on the remaining n-1 elements. 
+	* If cannot find any element which equals target-A[0], Try A[1]. That is, fix A[1] and 
+	* do binary search on A[2]~A[n-1]. Continue this process until we have the last two elements 
+	*
+	* Does this gives a time complexity lg(n-1) + lg(n-2) + ... + lg(1) ~ O(lg(n!)) ~ O(nlgn). 
+	* So it is less efficient than the O(n) solution
+	***************************************************************************************/
+	vector<int> twoSumII(vector<int> &numbers, int target) {
+    if(numbers.empty()) return {};
+    for(int i=0; i<numbers.size()-1; i++) {
+        int start=i+1;
+		int end=numbers.size()-1;
+		int gap=target-numbers[i];
+        while(start <= end) {
+            int m = start+(end-start)/2;
+            if(numbers[m] == gap) return {i+1,m+1};
+            else if(numbers[m] > gap) end=m-1;
+            else start=m+1;
+        }
+    }
+}
 };
