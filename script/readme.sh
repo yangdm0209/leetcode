@@ -23,10 +23,10 @@ DIR=`cd $(dirname ${1}) && pwd -P`
 FILE=${DIR}/$(basename ${1})
 
 URL=`grep Source ${FILE} | awk '{print $4}'`
-title_str=`xidel ${URL} -q -e "css('div.question-title h3')"` 
+title_str=`xidel ${URL} -s -e "css('div.question-title h3')"` 
 NUM=`echo ${title_str} | awk -F '.' '{print $1}'`
 TITLE=`echo ${title_str} | awk -F '.' '{print $2}' | sed -e 's/^[[:space:]]*//'`
-DIFFCULT=`xidel ${URL} -q -e "css('.question-info')" | grep Difficulty | awk '{print $2}'`
+DIFFCULT=`xidel ${URL} -s -e "css('.question-info')" | grep Difficulty | awk '{print $2}'`
 
 FILE=`echo ${FILE} | sed "s/.*\/algorithms/\.\/algorithms/"`
 
